@@ -1,0 +1,4 @@
+./data/data_np/test_mr//image_mr_1007.nii.gz.npz
+./data/data_np/test_mr//image_mr_1009.nii.gz.npz
+./data/data_np/test_mr//image_mr_1018.nii.gz.npz
+./data/data_np/test_mr//image_mr_1019.nii.gz.npz
