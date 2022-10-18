@@ -32,8 +32,6 @@ from torch.utils.data import DataLoader
 from torch.autograd import Variable
 
 from distutils.version import LooseVersion
-from Datasets.2018 import 2018_dataset
-from utils.transform import 2018_transform, 2018_transform_320, 2018_transform_newdata
 
 from Models.model_mia1201 import UNet_DA
 from Models.model_mia1201_resnet import UNet_DA_resnet
