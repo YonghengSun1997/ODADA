@@ -1,4 +1,4 @@
-## CA-Net: Comprehensive Attention Comvolutional Neural Networks for Explainable Medical Image Segmentation
+## Rethinking adversarial domain adaptation: Orthogonal decomposition for unsupervised domain adaptation in medical image segmentation
 This repository provides the code for "Rethinking adversarial domain adaptation: Orthogonal decomposition for unsupervised domain adaptation in medical image segmentation". Our work is accepted by MedIA [mia_link].
 
 
