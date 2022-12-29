@@ -299,6 +299,7 @@ class UNet_DA(nn.Module):
         self.E_DI = Extractor_DI()
         self.grl = GradientReverseLayer()
         self.domain_classifier = Domain_classifier()
+        self.domain_classifier2 = Domain_classifier()
         self.avgpool = torch.nn.AvgPool2d(224)
 
     def forward(self, x):
@@ -314,7 +315,8 @@ class UNet_DA(nn.Module):
 
         # f_ds = grad_reverse(f_ds, 1.0)
         f_ds = self.grl(f_ds)
-        prob = self.domain_classifier(f_ds)
+        prob_ds = self.domain_classifier(f_ds)
+        prob_di = self.domain_classifier2(f_di)
 
         x1 = f_di
         x2 = self.down1(x1)
@@ -330,7 +332,7 @@ class UNet_DA(nn.Module):
         logits = self.outc(x)
         final = F.sigmoid(logits)
 
-        return final, loss_orthogonal, prob
+        return final, loss_orthogonal, prob_di, prob_ds
         # return logits
 
 class UNet_DA_end(nn.Module):
@@ -351,9 +353,12 @@ class UNet_DA_end(nn.Module):
         self.up3 = Up(256, 128 // factor, bilinear)
         self.up4 = Up(128, 64, bilinear)
         self.outc = OutConv(64, n_classes)
+        
+        self.E_DI = Extractor_DI()
 
         self.grl = GradientReverseLayer()
         self.domain_classifier = Domain_classifier_end()
+        self.domain_classifier2 = Domain_classifier_end()
 
     def forward(self, x):
         x1 = self.inc(x)
@@ -365,13 +370,26 @@ class UNet_DA_end(nn.Module):
         x = self.up2(x, x3)
         x = self.up3(x, x2)
         x = self.up4(x, x1)
-        logits = self.outc(x)
+
+
+        f_all = x
+        f_di = self.E_DI(f_all)
+        f_ds = f_all - f_di
+
+        f_di_pool = self.avgpool(f_di).squeeze().squeeze()
+        f_ds_pool = self.avgpool(f_ds).squeeze().squeeze()
+        # loss_orthogonal = torch.mean(f_di_pool.square() * f_ds_pool.square(), dim=1)
+        loss_orthogonal = (f_di_pool.square() * f_ds_pool.square()).mean()
+
+        # f_ds = grad_reverse(f_ds, 1.0)
+        f_ds = self.grl(f_ds)
+        prob_ds = self.domain_classifier(f_ds)
+        prob_di = self.domain_classifier2(f_di)
+        
+        logits = self.outc(f_di)
         final = F.sigmoid(logits)
 
-        final_rev = self.grl(final)
-        prob = self.domain_classifier(final_rev)
-
-        return final, prob
+        return final, loss_orthogonal, prob_di, prob_ds
         # return logits
 
 
