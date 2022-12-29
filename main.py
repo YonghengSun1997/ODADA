@@ -57,6 +57,9 @@ from itertools import cycle
 import surface_distance as surfdist
 from medpy import metric
 
+from network import deeplabv3plus_resnet50, deeplabv3_resnet50
+
+
 
 criterion = "loss_MedT"  # loss_A-->SoftDiceLoss;  loss_B-->softdice_git;  loss_C-->CE_softdice_git
 
@@ -643,7 +646,8 @@ def main(args):
     args.num_input = 3
     args.num_classes = 2
 
-    model = UNet_DA()
+#     model = UNet_DA()
+    model = deeplabv3_resnet50(num_classes=2)
     model = nn.DataParallel(model)
     model = model.cuda()
 
