@@ -146,12 +146,12 @@ class _SimpleSegmentationModel(nn.Module):
         x = F.interpolate(x, size=input_shape, mode='bilinear', align_corners=False)
 
         # att_cacs_map = features['low_level'].cpu().detach().numpy().astype(np.float)
-        att_cacs_map = f_di.cpu().detach().numpy().astype(np.float)
+#         att_cacs_map = f_di.cpu().detach().numpy().astype(np.float)
 
-        att_cacs_map = np.mean(att_cacs_map, axis=1)
-        att_cacs_map = ndimage.interpolation.zoom(att_cacs_map, [1.0, 224 / att_cacs_map.shape[1],
-                                                              224 / att_cacs_map.shape[2]], order=1)
-        return x, loss_orthogonal, prob_di, prob_ds, att_cacs_map
+#         att_cacs_map = np.mean(att_cacs_map, axis=1)
+#         att_cacs_map = ndimage.interpolation.zoom(att_cacs_map, [1.0, 224 / att_cacs_map.shape[1],
+#                                                               224 / att_cacs_map.shape[2]], order=1)
+        return x, loss_orthogonal, prob_di, prob_ds
 
 
 # class _SimpleSegmentationModel(nn.Module):
