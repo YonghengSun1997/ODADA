@@ -20,6 +20,10 @@ Follow official guidance to install [Pytorch][torch_link].
 
 [torch_link]:https://pytorch.org/
 
+## Dataset
+This Repository contains a toy dataset (HK and BIDMC) for reimplement. You can download a full-version dataset via
+https://drive.google.com/drive/folders/1KEomtcpTUYCc94nAvEBBsT3vvLnR4rPN?usp=share_link
+If the data violates privacy, please let us know in time.
 ## Usages
 ### For multi-site prastate segmentation
 
