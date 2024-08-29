@@ -314,9 +314,9 @@ class UNet_DA(nn.Module):
         loss_orthogonal = (f_di_pool.square() * f_ds_pool.square()).mean()
 
         # f_ds = grad_reverse(f_ds, 1.0)
-        f_di = self.grl(f_di)
+        f_di_re = self.grl(f_di)
         prob_ds = self.domain_classifier(f_ds)
-        prob_di = self.domain_classifier2(f_di)
+        prob_di = self.domain_classifier2(f_di_re)
 
         x1 = f_di
         x2 = self.down1(x1)
@@ -382,9 +382,9 @@ class UNet_DA_end(nn.Module):
         loss_orthogonal = (f_di_pool.square() * f_ds_pool.square()).mean()
 
         # f_ds = grad_reverse(f_ds, 1.0)
-        f_di = self.grl(f_di)
+        f_di_re = self.grl(f_di)
         prob_ds = self.domain_classifier(f_ds)
-        prob_di = self.domain_classifier2(f_di)
+        prob_di = self.domain_classifier2(f_di_re)
         
         logits = self.outc(f_di)
         final = F.sigmoid(logits)
