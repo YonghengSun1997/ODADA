@@ -106,7 +106,7 @@ class GradientReverseLayer(nn.Module):
 class _SimpleSegmentationModel(nn.Module):
     def __init__(self, backbone, classifier):
         super(_SimpleSegmentationModel, self).__init__()
-        self.backbone = backbone
+        self.feature_extractor = backbone
         self.classifier = classifier
 
         self.E_DI = Extractor_DI()
@@ -118,7 +118,7 @@ class _SimpleSegmentationModel(nn.Module):
 
     def forward(self, x, step = 1):
         input_shape = x.shape[-2:]
-        features = self.backbone(x)
+        features = self.feature_extractor(x)
 
         # if step == 2:             
             # features['out'] = features['out'].detach()
