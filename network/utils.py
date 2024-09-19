@@ -129,8 +129,8 @@ class _SimpleSegmentationModel(nn.Module):
 
         f_di_pool = self.avgpool(f_di).squeeze().squeeze()
         f_ds_pool = self.avgpool(f_ds).squeeze().squeeze()
-        loss_orthogonal = (f_di_pool.square() * f_ds_pool.square()).mean()
-
+        # loss_orthogonal = (f_di_pool.square() * f_ds_pool.square()).mean()
+        loss_orthogonal = F.cosine_similarity(f_di_pool, f_ds_pool, dim=1)
         f_di_re = self.grl_di(f_di)
         # f_di_re = f_di
         prob_di = self.invariant_classifier(f_di_re)
