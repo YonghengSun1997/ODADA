@@ -311,8 +311,8 @@ class UNet_DA(nn.Module):
         f_di_pool = self.avgpool(f_di).squeeze().squeeze()
         f_ds_pool = self.avgpool(f_ds).squeeze().squeeze()
         # loss_orthogonal = torch.mean(f_di_pool.square() * f_ds_pool.square(), dim=1)
-        loss_orthogonal = (f_di_pool.square() * f_ds_pool.square()).mean()
-
+        # loss_orthogonal = (f_di_pool.square() * f_ds_pool.square()).mean()
+        loss_orthogonal = F.cosine_similarity(f_di_pool, f_ds_pool, dim=1)
         # f_ds = grad_reverse(f_ds, 1.0)
         f_di_re = self.grl(f_di)
         prob_ds = self.domain_classifier(f_ds)
@@ -379,7 +379,7 @@ class UNet_DA_end(nn.Module):
         f_di_pool = self.avgpool(f_di).squeeze().squeeze()
         f_ds_pool = self.avgpool(f_ds).squeeze().squeeze()
         # loss_orthogonal = torch.mean(f_di_pool.square() * f_ds_pool.square(), dim=1)
-        loss_orthogonal = (f_di_pool.square() * f_ds_pool.square()).mean()
+        loss_orthogonal = F.cosine_similarity(f_di_pool, f_ds_pool, dim=1)
 
         # f_ds = grad_reverse(f_ds, 1.0)
         f_di_re = self.grl(f_di)
